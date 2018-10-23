@@ -65,7 +65,7 @@ int main(void) {
 			for (int k = 0; k < ITER; k++) {
 				//printf("temp: %f\n", X_0 + i * X_STEP);	//[DEBUG]
 				x1 = pow(x0,2) - pow(y0,2) + X_0 + i * X_STEP;
-				y1 =  2*x0 * y0 + Y_0 + j * Y_STEP;
+				y1 =  2 * x0 * y0 + Y_0 + j * Y_STEP;
 				x0 = x1;
 				y0 = y1;
 				abs = sqrt(pow(x0, 2) + pow(y0, 2));
