@@ -1,7 +1,7 @@
 /*
 PRP2-2 Aufgabe 2.1
 Name: Malte Müller
-Date: 22.10.2018
+Date: 23.10.2018
 */
 
 #include <stdio.h>
@@ -16,7 +16,10 @@ Date: 22.10.2018
 #define X_STEP 0.02
 #define Y_STEP 0.02
 // Interations:
-#define ITER 100
+#define ITER 250
+// Characters:
+#define CONV printf("%c ", 254) //CONV "X "
+#define DEV "  "
 
 int main(void) {
 	
@@ -25,7 +28,7 @@ int main(void) {
 	
 	float x0, y0, x1, y1, abs;	// Start values
 
-	printf("%d, %d\n", n_x, n_y);	// [DEBUG]
+	//printf("%d, %d\n", n_x, n_y);	// [DEBUG]
 
 	float** coordinates;	// Initialize 2d array 
 	coordinates = (float**) malloc(n_x * sizeof(float*));	// Allocate dynamic storage (X-Value), type = int* (address)
@@ -73,10 +76,10 @@ int main(void) {
 		}
 	}
 	
-	for (int i = 0; i < n_x; i++) {
-		for (int j = 0; j < n_y; j++) {
-			if (coordinates[i][j] >= 2) printf(". ");
-			else printf("X ");
+	for (int i = 0; i < n_y; i++) {		//[TODO] swoap x and y coordinates
+		for (int j = 0; j < n_x; j++) {
+			if (coordinates[j][i] >= 2) printf(DEV);	// If ads divergates
+			else CONV;
 		}
 		printf("\n");
 	}
