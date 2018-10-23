@@ -5,6 +5,7 @@ Date: 22.10.2018
 */
 
 #include <stdio.h>
+#include <math.h>
 
 // Range of system:
 #define X_0 -2.1
@@ -12,15 +13,22 @@ Date: 22.10.2018
 #define Y_0 -1.2
 #define Y_1 1.2
 // Step size:
-#define X_STEP 0.1
-#define Y_STEP 0.1
+#define X_STEP 0.02
+#define Y_STEP 0.02
 // Interations:
 #define ITER 100
 
 int main(void) {
 	
-	int** coordinates;	// Initialize 2d array 
-	coordinates = (int**) malloc((X_1-X_0)/X_STEP * sizeof(int*));	// Allocate dynamic storage (X-Value), type = int* (address)
+	int n_x = (int)((X_1 - X_0) / X_STEP) +1;
+	int n_y = (int)((Y_1 - Y_0) / Y_STEP) +1;
+	
+	float x0, y0, x1, y1, abs;	// Start values
+
+	printf("%d, %d\n", n_x, n_y);	// [DEBUG]
+
+	float** coordinates;	// Initialize 2d array 
+	coordinates = (float**) malloc(n_x * sizeof(float*));	// Allocate dynamic storage (X-Value), type = int* (address)
 	
 	
 	if (coordinates == NULL) {	// Exit programm if allocation failed 
@@ -30,8 +38,8 @@ int main(void) {
 	}
 	
 
-	for (int i = 0; i < ((X_1 - X_0) / X_STEP); i++) {
-		coordinates[i] = (int*) malloc(((Y_1 - Y_0) / Y_STEP) * sizeof(int*));	// Allocate dynamic storage (Y-Value) [ERROR] ?
+	for (int i = 0; i < n_x; i++) {
+		coordinates[i] = (float*) malloc(n_y * sizeof(float));	// Allocate dynamic storage (Y-Value) [ERROR] ?
 		
 	
 		if (coordinates[i] == NULL) {
@@ -46,26 +54,51 @@ int main(void) {
 		
 	}
 
-	// [DEBUG] Simple test:
-	for (int i = 0; i < ((X_1 - X_0) / X_STEP); i++) {
-		for (int j = 0; j < ((Y_1 - Y_0) / Y_STEP); j++) {
-			coordinates[i][j] = i + j;
+	
+	for (int i = 0; i < n_x; i++) {
+		for (int j = 0; j < n_y; j++) {
+			x0 = 0;
+			y0 = 0;
+			for (int k = 0; k < ITER; k++) {
+				//printf("temp: %f\n", X_0 + i * X_STEP);	//[DEBUG]
+				x1 = pow(x0,2) - pow(y0,2) + X_0 + i * X_STEP;
+				y1 =  2*x0 * y0 + Y_0 + j * Y_STEP;
+				x0 = x1;
+				y0 = y1;
+				abs = sqrt(pow(x0, 2) + pow(y0, 2));
+				if (abs > 2) break;
+			}
+			//printf("%d,%d: x1=%f, y1=%f abs:%f\n", i, j,  x1, y1, abs);	// [DEBUG]
+			coordinates[i][j] = abs;	// Calculate abs value
 		}
 	}
-	for (int i = 0; i < ((X_1 - X_0) / X_STEP); i++) {
-		for (int j = 0; j < ((Y_1 - Y_0) / Y_STEP); j++) {
+	
+	for (int i = 0; i < n_x; i++) {
+		for (int j = 0; j < n_y; j++) {
+			if (coordinates[i][j] >= 2) printf(". ");
+			else printf("X ");
+		}
+		printf("\n");
+	}
+	
+	// [DEBUG] Simple test:
+	/*
+	for (int i = 0; i < n_x; i++) {
+		for (int j = 0; j < n_y; j++) {
 			printf("%d ", coordinates[i][j]);
 		}
 		printf("\n");
 	}
-
+	*/
 
 
 	// Release storage at the end:
-	for (int i = 0; i < ((X_1 - X_0) / X_STEP); i++) {	// Free storage (Y-Values)
+	for (int i = 0; i < n_x; i++) {	// Free storage (Y-Values)
 		free(coordinates[i]);
 	}
 	free(coordinates);	// Free storage (X-Values)
+
+	system("PAUSE");
 
 	return 0;
 }
