@@ -18,8 +18,8 @@ Date: 23.10.2018
 // Interations:
 #define ITER 250
 // Characters:
-#define CONV printf("%c ", 254) //CONV "X "
-#define DEV "  "
+#define DEV 32
+#define CONV 254 
 
 int main(void) {
 	
@@ -78,8 +78,8 @@ int main(void) {
 	
 	for (int i = 0; i < n_y; i++) {		//[TODO] swoap x and y coordinates
 		for (int j = 0; j < n_x; j++) {
-			if (coordinates[j][i] >= 2) printf(DEV);	// If ads divergates
-			else CONV;
+			if (coordinates[j][i] >= 2) printf("%c ", DEV);	// If ads divergates
+			else printf("%c ", CONV);
 		}
 		printf("\n");
 	}
