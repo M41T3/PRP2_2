@@ -1,7 +1,7 @@
 /*
 PRP2-2 Aufgabe 2.1
 Name: Malte Müller
-Date: 23.10.2018
+Date: 24.10.2018
 */
 
 #include <stdio.h>
@@ -16,7 +16,7 @@ Date: 23.10.2018
 #define X_STEP 0.02
 #define Y_STEP 0.02
 // Interations:
-#define ITER 250
+#define ITER 300
 // Characters:
 #define DEV 32
 #define CONV 254 
