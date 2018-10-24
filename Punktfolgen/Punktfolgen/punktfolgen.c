@@ -78,8 +78,16 @@ int main(void) {
 	
 	for (int i = 0; i < n_y; i++) {		//[TODO] swoap x and y coordinates
 		for (int j = 0; j < n_x; j++) {
-			if (coordinates[j][i] >= 2) printf("%c ", DEV);	// If ads divergates
-			else printf("%c ", CONV);
+			if (coordinates[j][i] < 2) printf("9 ");	// If ads divergates
+			else if(coordinates[j][i] < 2.5) printf("8 ");
+			else if (coordinates[j][i] < 3) printf("7 ");
+			else if (coordinates[j][i] < 3.5) printf("6 ");
+			else if (coordinates[j][i] < 4) printf("5 ");
+			else if (coordinates[j][i] < 4.5) printf("4 ");
+			else if (coordinates[j][i] < 5) printf("3 ");
+			else if (coordinates[j][i] < 5.5) printf("2 ");
+			else if (coordinates[j][i] < 6) printf("1 ");
+			else printf("0 ");
 		}
 		printf("\n");
 	}
