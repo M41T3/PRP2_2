@@ -28,8 +28,6 @@ int main(void) {
 	
 	float x0, y0, x1, y1, abs;	// Start values
 
-	//printf("%d, %d\n", n_x, n_y);	// [DEBUG]
-
 	float** coordinates;	// Initialize 2d array 
 	coordinates = (float**) malloc(n_x * sizeof(float*));	// Allocate dynamic storage (X-Value), type = int* (address)
 	
@@ -63,7 +61,6 @@ int main(void) {
 			x0 = 0;
 			y0 = 0;
 			for (int k = 0; k < ITER; k++) {
-				//printf("temp: %f\n", X_0 + i * X_STEP);	//[DEBUG]
 				x1 = pow(x0,2) - pow(y0,2) + X_0 + i * X_STEP;
 				y1 =  2 * x0 * y0 + Y_0 + j * Y_STEP;
 				x0 = x1;
@@ -71,7 +68,6 @@ int main(void) {
 				abs = sqrt(pow(x0, 2) + pow(y0, 2));
 				if (abs > 2) break;
 			}
-			//printf("%d,%d: x1=%f, y1=%f abs:%f\n", i, j,  x1, y1, abs);	// [DEBUG]
 			coordinates[i][j] = abs;	// Calculate abs value
 		}
 	}
@@ -83,17 +79,6 @@ int main(void) {
 		}
 		printf("\n");
 	}
-	
-	// [DEBUG] Simple test:
-	/*
-	for (int i = 0; i < n_x; i++) {
-		for (int j = 0; j < n_y; j++) {
-			printf("%d ", coordinates[i][j]);
-		}
-		printf("\n");
-	}
-	*/
-
 
 	// Release storage at the end:
 	for (int i = 0; i < n_x; i++) {	// Free storage (Y-Values)
@@ -102,6 +87,5 @@ int main(void) {
 	free(coordinates);	// Free storage (X-Values)
 
 	system("PAUSE");
-
 	return 0;
 }
