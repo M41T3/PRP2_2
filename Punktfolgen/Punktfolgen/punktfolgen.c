@@ -16,10 +16,7 @@ Date: 23.10.2018
 #define X_STEP 0.02
 #define Y_STEP 0.02
 // Interations:
-#define ITER 250
-// Characters:
-#define DEV 32
-#define CONV 254 
+#define ITER 1000
 
 int main(void) {
 	
@@ -28,7 +25,6 @@ int main(void) {
 	
 	float x0, y0, x1, y1, abs;	// Start values
 
-	//printf("%d, %d\n", n_x, n_y);	// [DEBUG]
 
 	float** coordinates;	// Initialize 2d array 
 	coordinates = (float**) malloc(n_x * sizeof(float*));	// Allocate dynamic storage (X-Value), type = int* (address)
@@ -71,7 +67,6 @@ int main(void) {
 				abs = sqrt(pow(x0, 2) + pow(y0, 2));
 				if (abs > 2) break;
 			}
-			//printf("%d,%d: x1=%f, y1=%f abs:%f\n", i, j,  x1, y1, abs);	// [DEBUG]
 			coordinates[i][j] = abs;	// Calculate abs value
 		}
 	}
@@ -91,17 +86,6 @@ int main(void) {
 		}
 		printf("\n");
 	}
-	
-	// [DEBUG] Simple test:
-	/*
-	for (int i = 0; i < n_x; i++) {
-		for (int j = 0; j < n_y; j++) {
-			printf("%d ", coordinates[i][j]);
-		}
-		printf("\n");
-	}
-	*/
-
 
 	// Release storage at the end:
 	for (int i = 0; i < n_x; i++) {	// Free storage (Y-Values)
