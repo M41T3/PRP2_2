@@ -1,7 +1,7 @@
 /*
 PRP2-2 Aufgabe 2.1
 Name: Malte Müller
-Date: 24.10.2018
+Date: 26.10.2018
 */
 
 #include <stdio.h>
@@ -21,6 +21,14 @@ Date: 24.10.2018
 #define DEV 32
 #define CONV 254 
 
+struct coordinate {
+	double x_value;
+	double y_value;
+	double abs;
+	int div_num;
+};
+
+
 int main(void) {
 	
 	int n_x = (int)((X_1 - X_0) / X_STEP) +1;
@@ -28,8 +36,9 @@ int main(void) {
 	
 	float x0, y0, x1, y1, abs;	// Start values
 
-	float** coordinates;	// Initialize 2d array 
-	coordinates = (float**) malloc(n_x * sizeof(float*));	// Allocate dynamic storage (X-Value), type = int* (address)
+
+	struct coordinate **coordinates; // Initialize 2d struct array 
+	coordinates = (struct coordinate**) malloc(n_x * sizeof(struct coordinate*));	// Allocate dynamic storage (X-Value), type = int* (address)
 	
 	
 	if (coordinates == NULL) {	// Exit programm if allocation failed 
@@ -40,7 +49,7 @@ int main(void) {
 	
 
 	for (int i = 0; i < n_x; i++) {
-		coordinates[i] = (float*) malloc(n_y * sizeof(float));	// Allocate dynamic storage (Y-Value) [ERROR] ?
+		coordinates[i] = (struct coordinate*) malloc(n_y * sizeof(struct coordinate));	// Allocate dynamic storage (Y-Value) [ERROR] ?
 		
 	
 		if (coordinates[i] == NULL) {
@@ -55,7 +64,7 @@ int main(void) {
 		
 	}
 
-	
+	// Calculate every single value.
 	for (int i = 0; i < n_x; i++) {
 		for (int j = 0; j < n_y; j++) {
 			x0 = 0;
@@ -66,15 +75,22 @@ int main(void) {
 				x0 = x1;
 				y0 = y1;
 				abs = sqrt(pow(x0, 2) + pow(y0, 2));
-				if (abs > 2) break;
+				if (abs > 2) { 
+					coordinates[i][j].div_num = k;
+					break; 
+				}
+				coordinates[i][j].div_num = -1;	// divergence
 			}
-			coordinates[i][j] = abs;	// Calculate abs value
+			coordinates[i][j].x_value = x0;
+			coordinates[i][j].y_value = y0;
+			coordinates[i][j].abs = abs;
+			coordinates[i][j].abs = abs;	// Calculate abs value
 		}
 	}
 	
 	for (int i = 0; i < n_y; i++) {		//[TODO] swoap x and y coordinates
 		for (int j = 0; j < n_x; j++) {
-			if (coordinates[j][i] >= 2) printf("%c ", DEV);	// If ads divergates
+			if (coordinates[j][i].abs >= 2) printf("%c ", DEV);	// If ads divergates
 			else printf("%c ", CONV);
 		}
 		printf("\n");
