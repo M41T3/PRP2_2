@@ -13,7 +13,7 @@ float  *allocate_1d(int n_days);
 void scan_data(float **temperature, float *air_pressure, int from, int to);
 float mean_temperature(float **temperature, int n_days);
 float mean_air_pressure(float *air_pressure, int n_days);
-float **add_temperature(float **temperature, int new_size);
+float **add_temperature(float **temperature, int new_size, int new_days);
 float *add_air_pressure(float *air_pressure, int new_size);
 
 int main(void) {
@@ -77,6 +77,8 @@ int main(void) {
 			from = n_days;
 			n_days = n_days + new_days;
 
+			printf("[out fkt]airpressure-ptr: %p\n", air_pressure);
+
 			air_pressure = add_air_pressure(air_pressure, n_days);
 			if (air_pressure == NULL) {
 				printf("Allocation failed: air_pressure == NULL!\n");
@@ -84,7 +86,7 @@ int main(void) {
 				return 1;
 			}
 			
-			temperature = add_temperature(temperature, n_days);
+			temperature = add_temperature(temperature, n_days, new_days);
 			if (temperature == NULL) {
 				printf("Allocation failed: temperature == NULL!\n");
 			
@@ -223,7 +225,7 @@ float mean_air_pressure(float *air_pressure, int n_days) {
 /**************************************************************************************************
 temp Realloc-fnc.
 */
-float **add_temperature(float **temperature, int new_size) {
+float **add_temperature(float **temperature, int new_size, int new_days) {
 	
 	float **new_temp = (float**)realloc(temperature, new_size * sizeof(float*));
 	
@@ -231,7 +233,7 @@ float **add_temperature(float **temperature, int new_size) {
 		return NULL;
 	}
 
-	for (int i = 0; i < new_size; i++) {
+	for (int i = new_size-new_days; i < new_size; i++) {	//neuer speicherplatz für vergrößerten speicher wird angelegt. für die vorhandenen wurden die werte bereits kopiert
 		new_temp[i] = (float*)malloc(N * sizeof(float));
 		
 		printf("%d\n", i); // [DEBUG]
@@ -244,9 +246,7 @@ float **add_temperature(float **temperature, int new_size) {
 			free(new_temp);	// Free storage (X-Values)
 			return NULL;
 		}
-
 	}
-
 	return new_temp;
 }
 
@@ -255,11 +255,11 @@ air Realloc-fnc.
 */
 
 float *add_air_pressure(float *air_pressure, int new_size) {
-	float *new_air_pr = (float*)realloc(air_pressure, new_size);
+	
+	float *new_air_pr = (float*)realloc(air_pressure, new_size * sizeof(float));
 
 	if (new_air_pr == NULL) {	// Exit programm if allocation failed 
 		return NULL;
 	}
-
 	return new_air_pr;
 }
