@@ -24,7 +24,7 @@ Date: 31.10.2018
 #define N_X  ((int)((X_1 - X_0) / X_STEP))
 #define N_Y  ((int)((Y_1 - Y_0) / Y_STEP))
 
-// Typdefs:
+// Typedefs:
 typedef struct {
 	double x_value;
 	double y_value;
@@ -66,31 +66,30 @@ int main(void) {
 		
 	}
 
-	// Calculate every single value.
-	for (int i = 0; i < N_X; i++) {
-		for (int j = 0; j < N_Y; j++) {
+	// Calculate every single value:
+	for (int i = 0; i < N_X; i++) {	//Iterate through X-Values
+		for (int j = 0; j < N_Y; j++) {	//Iterate through Y-Values
 			x0 = 0;
 			y0 = 0;
-			for (int k = 0; k < ITER; k++) {
+			for (int k = 0; k < ITER; k++) {	// Recursive function 
 				x1 = pow(x0,2) - pow(y0,2) + X_0 + i * X_STEP;
 				y1 =  2 * x0 * y0 + Y_0 + j * Y_STEP;
 				x0 = x1;
 				y0 = y1;
 				abs = sqrt(pow(x0, 2) + pow(y0, 2));
-				if (abs > 2) { 
+				if (abs > 2) {	// If absolute value is >2 save number of iteration
 					coordinates[i][j].div_num = k;
 					break; 
 				}
-				coordinates[i][j].div_num = -1;	// divergence
+				coordinates[i][j].div_num = -1;	// divergence 
 			}
 			coordinates[i][j].x_value = x0;
 			coordinates[i][j].y_value = y0;
-			coordinates[i][j].abs = abs;
 			coordinates[i][j].abs = abs;	// Calculate abs value
 		}
 	}
 
-	printf("Ausgabe? [0] Liste , [1] Mandelbrot - ");
+	printf("Ausgabe? [0] Liste , [1] Mandelbrot - ");	// Ask to either print list or Mandelbrot
 	scanf_s(" %c", &output);
 	if(output == '0') print_list(coordinates);
 	else if (output == '1') print_mandelbrot(coordinates);
@@ -106,21 +105,34 @@ int main(void) {
 	return 0;
 }
 
+/**************************************************************************************************
+Function prints Mandelbrot to the console.
+Parameters:
+	coordinate_t **coordinates - pointer to coordinates-data
+Returns:
+	void.
+*/
 void print_mandelbrot(coordinate_t **coordinates) {
-	for (int i = 0; i < N_Y; i++) {		//[TODO] swoap x and y coordinates
+	for (int i = 0; i < N_Y; i++) {		
 		for (int j = 0; j < N_X; j++) {
-			if (coordinates[j][i].abs >= 2) printf("%c ", DEV);	// If ads divergates
+			if (coordinates[j][i].abs >= 2) printf("%c ", DEV);	// If absolute value divergates
 			else printf("%c ", CONV);
 		}
 		printf("\n");
 	}
 }
-
+/**************************************************************************************************
+Function prints list to the console.
+Parameters:
+coordinate_t **coordinates - pointer to coordinates-data
+Returns:
+void.
+*/
 void print_list(coordinate_t **coordinates) {
 	printf("Untersuchung einer Folge ausgehend vom Punkt:\n");
 	float x;
 	float y;
-	for (int i = 0; i < N_Y; i++) {		//[TODO] swoap x and y coordinates
+	for (int i = 0; i < N_Y; i++) {		// Print out in a loop
 		y = Y_0 + i * Y_STEP;
 		for (int j = 0; j < N_X; j++) {
 			x = X_0 + j * X_STEP;
