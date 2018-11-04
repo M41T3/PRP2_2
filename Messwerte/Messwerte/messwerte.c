@@ -47,22 +47,6 @@ int main(void) {
 
 		scan_data(temperature, air_pressure, from, n_days);	// Read in measurement-data
 
-		//[DEBUG]vvvvvvvv
-		printf("\n[DEBUG] Print out Temperature-2dArray:\n\n");
-		for (int i = 0; i < n_days; i++) {
-			for (int j = 0; j < N; j++) {
-				printf("%f ", temperature[i][j]);
-			}
-			printf("\n");
-		}
-
-		printf("\n[DEBUG] Print out Pressure-1dArray:\n\n");
-		for (int i = 0; i < n_days; i++) {
-			printf("%f ", air_pressure[i]);
-		}
-		printf("\n");
-		//^^^^^^^^
-
 		// Calculate mean-values:
 		printf("\n--> Durchschnittswert der Temperaturen: %.2f\n", mean_temperature(temperature, n_days));
 		printf("\n--> Durchschnittswert der Luftdruckwerte: %.2f\n", mean_air_pressure(air_pressure, n_days));
@@ -77,8 +61,6 @@ int main(void) {
 
 			from = n_days;
 			n_days = n_days + new_days;	// Total days
-
-			//printf("[out fkt]airpressure-ptr: %p\n", air_pressure);	
 
 			air_pressure = add_air_pressure(air_pressure, n_days);	// Reallocate memory
 			if (air_pressure == NULL) {
@@ -240,10 +222,7 @@ float **add_temperature(float **temperature, int new_size, int new_days) {
 	for (int i = new_size-new_days; i < new_size; i++) {	// Allocate memory to new days
 		new_temp[i] = (float*)malloc(N * sizeof(float));
 		
-		//printf("%d\n", i); // [DEBUG]
-
 		if (new_temp[i] == NULL) {
-			//printf("fail at %d\n", i); // [DEBUG]
 			for (int j = i - 1; j >= 0; j--) {	// Free storage (Y-Values)
 				free(new_temp[j]);
 			}
