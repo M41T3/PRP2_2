@@ -36,7 +36,7 @@ matrix_t* matrix_erstellen(unsigned short zeilen, unsigned short spalten) {
 
 	matrix_t* pmatrix;
 
-	pmatrix = (matrix_t*)malloc(sizeof(matrix_t));	// Speicher für Struck in heap, damit er nach beendigung des blocks noch vorhanden ist
+	pmatrix = (matrix_t*)malloc(sizeof(matrix_t));	// Speicher für Strukt in heap, damit er nach beendigung des blocks noch vorhanden ist
 
 	pmatrix->zeilen = zeilen;
 	pmatrix->spalten = spalten;
@@ -68,7 +68,7 @@ void matrix_eingeben(matrix_t *matrix) {
 
 	for (int z = 0; z < matrix->zeilen; z++) {
 		for (int s = 0; s < matrix->spalten; s++) {
-			scanf_s(" %d", &(matrix->werte[s][z]));
+			scanf_s(" %d", &(matrix->werte[z][s]));
 		}
 	}
 }
