@@ -1,7 +1,7 @@
 /*
 PRP2-2 Aufgabe 2.2
-Name: Malte Müller
-Date: 02.11.2018
+Name: Malte Müller, Fabian Liebold
+Date: 09.11.2018
 */
 
 #include <stdio.h>
@@ -42,6 +42,7 @@ int main(void) {
 	}
 	
 	char rep_flag = 'j';
+	int input = 0;
 
 	do {	// Loops, when measurement-data gets enhanced
 
@@ -50,12 +51,22 @@ int main(void) {
 		// Calculate mean-values:
 		printf("\n--> Durchschnittswert der Temperaturen: %.2f\n", mean_temperature(temperature, n_days));
 		printf("\n--> Durchschnittswert der Luftdruckwerte: %.2f\n", mean_air_pressure(air_pressure, n_days));
+		
+		do {
 
-		printf("Sollen weitere Messwerte eingegeben werden [j/n]? ");	// Ask to add measurement-data
-		scanf_s(" %c", &rep_flag);
+			printf("Sollen weitere Messwerte eingegeben werden [j/n]? ");	// Ask to add measurement-data
+			scanf_s(" %c", &rep_flag);						
 
-		if (rep_flag == 'j') {	// If user typed in 'j'
-			// realloc:
+			fseek(stdin, 0, SEEK_END);	// clear buffer
+
+			if (rep_flag != 'j' && rep_flag != 'J'&& rep_flag != 'n'&& rep_flag != 'N'){	// If the user typed in the wrong character 
+				printf("Bitte nur 'J' oder 'N' eingeben!\n");
+			}
+
+		} while (rep_flag != 'j' && rep_flag != 'J' && rep_flag != 'n' && rep_flag != 'N');
+
+		if (rep_flag == 'j' || rep_flag == 'J') {	// If user typed in 'j'
+			// realloc
 			printf("Wieviele neue Tage? \n");
 			scanf_s(" %d", &new_days);	// Ask for number of days, which the user wants to add 
 
@@ -78,7 +89,7 @@ int main(void) {
 			
 		}
 
-	} while (rep_flag == 'j');	// Repeat prozedure until user don't want to add any data
+	} while (rep_flag == 'j' || rep_flag == 'J');	// Repeat prozedure until user don't want to add any data
 
 	// Release storage at the end:
 	for (int i = 0; i < n_days; i++) {	// Free storage (Y-Values)

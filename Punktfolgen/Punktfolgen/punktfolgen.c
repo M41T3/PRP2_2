@@ -1,7 +1,7 @@
 /*
 PRP2-2 Aufgabe 2.1
-Name: Malte Müller
-Date: 31.10.2018
+Name: Malte Müller, Fabian Liebold
+Date: 09.11.2018
 */
 
 #include <stdio.h>
@@ -83,8 +83,8 @@ int main(void) {
 				}
 				coordinates[i][j].div_num = -1;	// divergence 
 			}
-			coordinates[i][j].x_value = x0;
-			coordinates[i][j].y_value = y0;
+			coordinates[i][j].x_value = X_0 + i * X_STEP;	// Save x-start value
+			coordinates[i][j].y_value = Y_0 + j * Y_STEP;	// Save y-start value
 			coordinates[i][j].abs = abs;	// Calculate abs value
 		}
 	}
